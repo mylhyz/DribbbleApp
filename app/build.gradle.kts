@@ -43,8 +43,6 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.fresco)
-    implementation("com.jakewharton:butterknife:8.2.1")
-    annotationProcessor("com.jakewharton:butterknife-compiler:8.2.1")
     implementation("com.afollestad.material-dialogs:core:0.8.6.2")
     implementation("com.afollestad.material-dialogs:commons:0.8.6.2")
     implementation("com.squareup.okhttp3:okhttp:3.4.1")
