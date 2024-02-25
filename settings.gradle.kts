@@ -19,5 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "AndroidStudioProjectTemplate"
+rootProject.name = "DribbbleApp"
 include(":app")
+include(":AndroidTagView")

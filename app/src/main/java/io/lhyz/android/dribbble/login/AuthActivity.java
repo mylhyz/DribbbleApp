@@ -18,7 +18,7 @@ package io.lhyz.android.dribbble.login;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -31,7 +31,7 @@ import java.io.IOException;
 
 import butterknife.BindView;
 import io.lhyz.android.dribbble.BuildConfig;
-import io.lhyz.android.dribbble.R;
+import io.viper.android.dribbble.R;
 import io.lhyz.android.dribbble.base.app.BaseActivity;
 import okhttp3.Call;
 import okhttp3.Callback;

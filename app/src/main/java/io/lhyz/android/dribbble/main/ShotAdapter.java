@@ -17,8 +17,8 @@ package io.lhyz.android.dribbble.main;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +30,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.lhyz.android.dribbble.R;
+import io.viper.android.dribbble.R;
 import io.lhyz.android.dribbble.data.bean.Shot;
 
 /**

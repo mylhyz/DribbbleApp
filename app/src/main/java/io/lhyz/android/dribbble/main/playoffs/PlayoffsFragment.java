@@ -16,19 +16,19 @@
 package io.lhyz.android.dribbble.main.playoffs;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.core.content.ContextCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import java.util.List;
 
 import butterknife.BindView;
-import io.lhyz.android.dribbble.R;
+import io.viper.android.dribbble.R;
 import io.lhyz.android.dribbble.base.app.BaseFragment;
 import io.lhyz.android.dribbble.data.bean.Shot;
 import io.lhyz.android.dribbble.main.OnShotClickListener;
