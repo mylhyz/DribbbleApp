@@ -18,12 +18,17 @@ package io.lhyz.android.dribbble;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import dagger.hilt.android.qualifiers.ApplicationContext;
 import io.lhyz.android.dribbble.data.bean.User;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/7.
  */
+@Singleton
 public class AppPreference {
     private static final String SHARED_NAME = "dribbble_app_conf";
 
@@ -36,29 +41,30 @@ public class AppPreference {
     private static final String _AVATAR = "user_cached_avatar";
     private static final String _HOST = "user_cached_host";
 
-    private SharedPreferences mSharedPreferences;
+    private final SharedPreferences mSharedPreferences;
 
-    private static AppPreference INSTANCE;
+    private OnTokenUpdateListener mOnTokenUpdateListener;
 
-    private AppPreference() {
-        mSharedPreferences = DribbbleApp.getAppContext().getSharedPreferences(SHARED_NAME, Context.MODE_PRIVATE);
-    }
-
-    public static AppPreference getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new AppPreference();
-        }
-        return INSTANCE;
+    @Inject
+    public AppPreference(@ApplicationContext Context context) {
+        mSharedPreferences = context.getSharedPreferences(SHARED_NAME, Context.MODE_PRIVATE);
     }
 
     public void saveToken(String token) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(KEY_ACCESS_TOKEN, token);
         editor.apply();
+        if (mOnTokenUpdateListener != null) {
+            mOnTokenUpdateListener.onTokenUpdated(token);
+        }
     }
 
     public String readToken() {
         return mSharedPreferences.getString(KEY_ACCESS_TOKEN, null);
+    }
+
+    public void setOnTokenUpdateListener(OnTokenUpdateListener listener) {
+        mOnTokenUpdateListener = listener;
     }
 
     public boolean isFirstStart() {
@@ -101,5 +107,9 @@ public class AppPreference {
         String avatar_url = mSharedPreferences.getString(_AVATAR, null);
         String host = mSharedPreferences.getString(_HOST, null);
         return new User(id, name, avatar_url, host);
+    }
+
+    public interface OnTokenUpdateListener {
+        void onTokenUpdated(String token);
     }
 }

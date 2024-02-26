@@ -18,9 +18,12 @@ package io.lhyz.android.dribbble.login;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 
 import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -71,6 +74,9 @@ public class AuthActivity extends BaseActivity {
                 .progress(true, 0)
                 .build();
 
+        WebSettings webSettings = mWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+
         mWebView.setWebViewClient(new WebViewClient() {
             @SuppressWarnings("deprecation")
             @Override
@@ -82,6 +88,14 @@ public class AuthActivity extends BaseActivity {
                     mDialog.dismiss();
                 }
                 return super.shouldOverrideUrlLoading(view, url);
+            }
+        });
+        mWebView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                if (newProgress == 100) {
+                    mDialog.dismiss();
+                }
             }
         });
 

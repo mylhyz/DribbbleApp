@@ -15,11 +15,15 @@
  */
 package io.lhyz.android.dribbble;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import io.lhyz.android.dribbble.login.AuthActivity;
 import io.lhyz.android.dribbble.main.MainActivity;
 
@@ -29,7 +33,12 @@ import io.lhyz.android.dribbble.main.MainActivity;
  * <p/>
  * 启动导航页,根据token是否已经获取进行跳转
  */
-public class AppStart extends Activity {
+@AndroidEntryPoint
+public class AppStart extends AppCompatActivity {
+
+    @Inject
+    AppPreference mAppPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +48,7 @@ public class AppStart extends Activity {
 //            AppPreference.getInstance().saveToken(BuildConfig.ACCESS_TOKEN);
 //        }
 
-        if (AppPreference.getInstance().readToken() == null) {
+        if (mAppPref.readToken() == null) {
             redirectToLogin();
         } else {
             redirectToMain();
@@ -48,9 +57,10 @@ public class AppStart extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (RESULT_OK == resultCode && AuthActivity.REQUEST_AUTH == requestCode) {
             String token = data.getData().toString();
-            AppPreference.getInstance().saveToken(token);
+            mAppPref.saveToken(token);
             redirectToMain();
         } else if (RESULT_CANCELED == resultCode) {
             finish();

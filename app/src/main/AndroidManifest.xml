@@ -2,14 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+<!--    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>-->
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.READ_LOGS"/>
+<!--    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>-->
+<!--    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>-->
+<!--    <uses-permission android:name="android.permission.READ_LOGS"/>-->
 
     <application
-        android:name=".DribbbleApp"
+        android:name="io.lhyz.android.dribbble.DribbbleApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -20,10 +20,10 @@
         <!--预先禁止横屏-->
 
         <activity
-            android:name=".AppStart"
+            android:name="io.lhyz.android.dribbble.AppStart"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -31,23 +31,23 @@
         </activity>
 
         <activity
-            android:name=".main.MainActivity"
+            android:name="io.lhyz.android.dribbble.main.MainActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
-            android:name=".login.AuthActivity"
+            android:name="io.lhyz.android.dribbble.login.AuthActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/label_auth"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".detail.DetailActivity"
+            android:name="io.lhyz.android.dribbble.detail.DetailActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".main.MainActivity"/>
+                android:value="io.lhyz.android.dribbble.main.MainActivity"/>
         </activity>
 
         <meta-data

@@ -29,7 +29,6 @@ import io.lhyz.android.dribbble.data.bean.Comment;
 import io.lhyz.android.dribbble.data.bean.Like;
 import io.lhyz.android.dribbble.data.bean.Shot;
 import io.lhyz.android.dribbble.data.source.DataSource;
-import io.lhyz.android.dribbble.net.DribbbleServiceCreator;
 import io.lhyz.android.dribbble.util.TagHelper;
 import rx.Observable;
 import rx.Subscription;
@@ -46,15 +45,13 @@ public class RemoteDataSource implements DataSource {
 
     private static final String TAG = TagHelper.from(RemoteDataSource.class);
 
+    @Inject
     DribbbleService mDribbbleService;
 
     CompositeSubscription mCompositeSubscription;
 
     @Inject
     public RemoteDataSource() {
-        mDribbbleService = DribbbleServiceCreator.newInstance()
-                .createService();
-
         mCompositeSubscription = new CompositeSubscription();
     }
 

@@ -19,25 +19,25 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         if (project.hasProperty("client_id")) {
-            buildConfigField("String", "Client_ID", project.properties["client_id"] as String)
+            buildConfigField("String", "Client_ID", "\"${project.properties["client_id"] as String}\"")
         } else {
             buildConfigField("String", "Client_ID", "\"zxcvbnmasdfghjkl\"")
         }
 
         if (project.hasProperty("client_secret")) {
-            buildConfigField("String", "Client_Secret", project.properties["client_secret"] as String)
+            buildConfigField("String", "Client_Secret", "\"${project.properties["client_secret"] as String}\"")
         } else {
             buildConfigField("String", "Client_Secret", "\"zxcvbnmasdfghjkl\"")
         }
 
         if (project.hasProperty("callback_url")) {
-            buildConfigField("String", "Callback_URL", project.properties["callback_url"] as String)
+            buildConfigField("String", "Callback_URL", "\"${project.properties["callback_url"] as String}\"")
         } else {
             buildConfigField("String", "Callback_URL", "\"https://www.example.com/\"")
         }
 
         if (project.hasProperty("client_access_token")) {
-            buildConfigField("String", "ACCESS_TOKEN", project.properties["client_access_token"] as String)
+            buildConfigField("String", "ACCESS_TOKEN", "\"${project.properties["client_access_token"] as String}\"")
         } else {
             buildConfigField("String", "ACCESS_TOKEN", "\"zxcvbnmasdfghjkl\"")
         }

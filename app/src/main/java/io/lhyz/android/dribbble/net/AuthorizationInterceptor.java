@@ -17,6 +17,7 @@ package io.lhyz.android.dribbble.net;
 
 import java.io.IOException;
 
+import io.lhyz.android.dribbble.AppPreference;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -31,18 +32,22 @@ import okhttp3.Response;
  */
 public class AuthorizationInterceptor implements Interceptor {
 
-    private final String accessToken;
+    private String mCurrentAccessToken;
 
-    public AuthorizationInterceptor(String accessToken) {
-        this.accessToken = accessToken;
+    public AuthorizationInterceptor(AppPreference perf) {
+        this.mCurrentAccessToken = perf.readToken();
+        perf.setOnTokenUpdateListener(new AppPreference.OnTokenUpdateListener() {
+            @Override
+            public void onTokenUpdated(String token) {
+                AuthorizationInterceptor.this.mCurrentAccessToken = token;
+            }
+        });
     }
 
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-        request = request.newBuilder()
-                .addHeader("Authorization", "Bearer " + accessToken)
-                .build();
+        request = request.newBuilder().addHeader("Authorization", "Bearer " + mCurrentAccessToken).build();
         return chain.proceed(request);
     }
 }

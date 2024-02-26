@@ -22,6 +22,9 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import io.lhyz.android.dribbble.AppPreference;
 import io.lhyz.android.dribbble.AppStart;
 import io.viper.android.dribbble.R;
@@ -41,11 +44,11 @@ import io.lhyz.android.dribbble.main.recent.RecentFragment;
 import io.lhyz.android.dribbble.main.recent.RecentPresenter;
 import io.lhyz.android.dribbble.main.team.TeamFragment;
 import io.lhyz.android.dribbble.main.team.TeamPresenter;
-import io.lhyz.android.dribbble.net.DribbbleServiceCreator;
 import io.viper.android.dribbble.databinding.ActMainBinding;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+@AndroidEntryPoint
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -54,8 +57,11 @@ public class MainActivity extends BaseActivity
     NavigationView mNavigationView;
     TabLayout mTabLayout;
     ViewPager mViewPager;
-
+    @Inject
     DribbbleService mDribbbleService;
+
+    @Inject
+    AppPreference mAppPref;
 
     @Override
     protected View getBindingLayout() {
@@ -111,7 +117,7 @@ public class MainActivity extends BaseActivity
                 getSupportFragmentManager(),
                 tabInfoArrayList);
 
-        final int pos = AppPreference.getInstance().readTabPosition();
+        final int pos = mAppPref.readTabPosition();
         mViewPager.setAdapter(adapter);
         mViewPager.setOffscreenPageLimit(6);
         mViewPager.setCurrentItem(pos);
@@ -142,31 +148,28 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onPause() {
         super.onPause();
-        AppPreference.getInstance().saveTabPosition(mTabLayout.getSelectedTabPosition());
+        mAppPref.saveTabPosition(mTabLayout.getSelectedTabPosition());
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         //非正常退出
-        AppPreference.getInstance().saveTabPosition(mTabLayout.getSelectedTabPosition());
+        mAppPref.saveTabPosition(mTabLayout.getSelectedTabPosition());
     }
 
     private void initData() {
-        final String token = AppPreference.getInstance().readToken();
+        final String token = mAppPref.readToken();
 
         if (token == null) {
             startActivity(new Intent(this, AppStart.class));
             finish();
-        } else {
-            mDribbbleService = DribbbleServiceCreator.newInstance()
-                    .createService();
         }
     }
 
     private void requestUser() {
         //如果缓存了user数据，那么直接拿来用
-        final User user = AppPreference.getInstance().readUser();
+        final User user = mAppPref.readUser();
         if (user != null) {
             showUser(user);
             return;
@@ -179,7 +182,7 @@ public class MainActivity extends BaseActivity
     private final DefaultSubscriber<User> mUserSubscriber = new DefaultSubscriber<User>() {
         @Override
         public void onSuccess(User user) {
-            AppPreference.getInstance().saveUser(user);
+            mAppPref.saveUser(user);
             showUser(user);
         }
 
@@ -200,7 +203,7 @@ public class MainActivity extends BaseActivity
         tvName.setText(user.getName());
         tvHost.setText(user.getHost());
 
-        if (AppPreference.getInstance().isFirstStart()) {
+        if (mAppPref.isFirstStart()) {
             mDrawerLayout.openDrawer(GravityCompat.START);
         }
     }

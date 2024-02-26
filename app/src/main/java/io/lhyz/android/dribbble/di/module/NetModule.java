@@ -13,9 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.lhyz.android.dribbble.net;
+package io.lhyz.android.dribbble.di.module;
 
-import okhttp3.Interceptor;
+import javax.inject.Singleton;
+
+import dagger.Module;
+import dagger.Provides;
+import dagger.hilt.InstallIn;
+import dagger.hilt.components.SingletonComponent;
+import io.lhyz.android.dribbble.AppPreference;
+import io.lhyz.android.dribbble.data.DribbbleService;
+import io.lhyz.android.dribbble.net.AuthorizationInterceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -23,23 +31,26 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * hello,android
- * Created by lhyz on 2016/8/7.
- * <p/>
- * 构造Retrofit
+ * Created by lhyz on 2016/8/10.
  */
-public class RetrofitManager {
+@Module
+@InstallIn(SingletonComponent.class)
+public class NetModule {
 
     private static final String DRIBBBLE_API = "https://api.dribbble.com/v1/";
 
-    private final Interceptor mInterceptor;
 
-    public RetrofitManager(Interceptor interceptor) {
-        mInterceptor = interceptor;
+    @Provides
+    @Singleton
+    public static AuthorizationInterceptor provideInterceptor(AppPreference perf) {
+        return new AuthorizationInterceptor(perf);
     }
 
-    public Retrofit buildRetrofit() {
+    @Provides
+    @Singleton
+    public static Retrofit provideRetrofit(AuthorizationInterceptor interceptor) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(mInterceptor)
+                .addInterceptor(interceptor)
                 .build();
         return new Retrofit.Builder()
                 .baseUrl(DRIBBBLE_API)
@@ -47,5 +58,11 @@ public class RetrofitManager {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
+    }
+
+    @Provides
+    @Singleton
+    public static DribbbleService provideServiceAPI(Retrofit retrofit) {
+        return retrofit.create(DribbbleService.class);
     }
 }
