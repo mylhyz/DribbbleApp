@@ -17,8 +17,6 @@ package io.lhyz.android.dribbble.main.debut;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import io.lhyz.android.dribbble.data.ShotType;
 import io.lhyz.android.dribbble.data.bean.Shot;
 import io.lhyz.android.dribbble.data.source.DataSource;
@@ -32,12 +30,12 @@ public class DebutPresenter implements DebutContract.Presenter {
 
     DebutContract.View mView;
 
-    @Inject
     DribbbleRepository mRepository;
 
-    public DebutPresenter(DebutContract.View view) {
+    public DebutPresenter(DebutContract.View view, DribbbleRepository repository) {
         mView = view;
         mView.setPresenter(this);
+        this.mRepository = repository;
     }
 
     @Override

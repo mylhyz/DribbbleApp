@@ -17,8 +17,6 @@ package io.lhyz.android.dribbble.main.recent;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import io.lhyz.android.dribbble.data.ShotType;
 import io.lhyz.android.dribbble.data.bean.Shot;
 import io.lhyz.android.dribbble.data.source.DataSource;
@@ -32,12 +30,12 @@ public class RecentPresenter implements RecentContract.Presenter {
 
     RecentContract.View mView;
 
-    @Inject
-    DribbbleRepository mRepository;
+    final DribbbleRepository mRepository;
 
-    public RecentPresenter(RecentContract.View view) {
+    public RecentPresenter(RecentContract.View view, DribbbleRepository repository) {
         mView = view;
         mView.setPresenter(this);
+        this.mRepository = repository;
     }
 
     @Override

@@ -3,22 +3,20 @@ package io.lhyz.android.dribbble.main;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
-
-import androidx.core.view.GravityCompat;
-import androidx.viewpager.widget.ViewPager;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.widget.Toolbar;
-
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager.widget.ViewPager;
+
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
@@ -27,11 +25,11 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 import io.lhyz.android.dribbble.AppPreference;
 import io.lhyz.android.dribbble.AppStart;
-import io.viper.android.dribbble.R;
 import io.lhyz.android.dribbble.base.DefaultSubscriber;
 import io.lhyz.android.dribbble.base.app.BaseActivity;
-import io.lhyz.android.dribbble.data.bean.User;
 import io.lhyz.android.dribbble.data.DribbbleService;
+import io.lhyz.android.dribbble.data.bean.User;
+import io.lhyz.android.dribbble.data.source.DribbbleRepository;
 import io.lhyz.android.dribbble.main.debut.DebutFragment;
 import io.lhyz.android.dribbble.main.debut.DebutPresenter;
 import io.lhyz.android.dribbble.main.following.FollowingFragment;
@@ -44,6 +42,7 @@ import io.lhyz.android.dribbble.main.recent.RecentFragment;
 import io.lhyz.android.dribbble.main.recent.RecentPresenter;
 import io.lhyz.android.dribbble.main.team.TeamFragment;
 import io.lhyz.android.dribbble.main.team.TeamPresenter;
+import io.viper.android.dribbble.R;
 import io.viper.android.dribbble.databinding.ActMainBinding;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -59,9 +58,10 @@ public class MainActivity extends BaseActivity
     ViewPager mViewPager;
     @Inject
     DribbbleService mDribbbleService;
-
     @Inject
     AppPreference mAppPref;
+    @Inject
+    DribbbleRepository mDribbbleRepository;
 
     @Override
     protected View getBindingLayout() {
@@ -90,27 +90,27 @@ public class MainActivity extends BaseActivity
         ArrayList<TabInfo> tabInfoArrayList = new ArrayList<>();
 
         RecentFragment recentFragment = RecentFragment.newInstance();
-        new RecentPresenter(recentFragment);
+        new RecentPresenter(recentFragment, mDribbbleRepository);
         tabInfoArrayList.add(new TabInfo(recentFragment, "Recent"));
 
         PopularFragment popularFragment = PopularFragment.newInstance();
-        new PopularPresenter(popularFragment);
+        new PopularPresenter(popularFragment, mDribbbleRepository);
         tabInfoArrayList.add(new TabInfo(popularFragment, "Popular"));
 
         FollowingFragment followingFragment = FollowingFragment.newInstance();
-        new FollowingPresenter(followingFragment);
+        new FollowingPresenter(followingFragment, mDribbbleRepository);
         tabInfoArrayList.add(new TabInfo(followingFragment, "Following"));
 
         DebutFragment debutFragment = DebutFragment.newInstance();
-        new DebutPresenter(debutFragment);
+        new DebutPresenter(debutFragment, mDribbbleRepository);
         tabInfoArrayList.add(new TabInfo(debutFragment, "Debuts"));
 
         TeamFragment teamFragment = TeamFragment.newInstance();
-        new TeamPresenter(teamFragment);
+        new TeamPresenter(teamFragment, mDribbbleRepository);
         tabInfoArrayList.add(new TabInfo(teamFragment, "Teams"));
 
         PlayoffsFragment playoffsFragment = PlayoffsFragment.newInstance();
-        new PlayoffsPresenter(playoffsFragment);
+        new PlayoffsPresenter(playoffsFragment, mDribbbleRepository);
         tabInfoArrayList.add(new TabInfo(playoffsFragment, "Playoffs"));
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(

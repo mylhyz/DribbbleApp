@@ -17,8 +17,6 @@ package io.lhyz.android.dribbble.main.team;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import io.lhyz.android.dribbble.data.ShotType;
 import io.lhyz.android.dribbble.data.bean.Shot;
 import io.lhyz.android.dribbble.data.source.DataSource;
@@ -32,12 +30,12 @@ public class TeamPresenter implements TeamContract.Presenter {
 
     TeamContract.View mView;
 
-    @Inject
     DribbbleRepository mRepository;
 
-    public TeamPresenter(TeamContract.View view) {
+    public TeamPresenter(TeamContract.View view, DribbbleRepository repository) {
         mView = view;
         mView.setPresenter(this);
+        this.mRepository = repository;
     }
 
     @Override
