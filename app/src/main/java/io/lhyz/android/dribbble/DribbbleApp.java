@@ -22,13 +22,14 @@ import android.content.Context;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
 //import io.fabric.sdk.android.Fabric;
+import dagger.hilt.android.HiltAndroidApp;
 import io.lhyz.android.dribbble.di.component.AppComponent;
-import io.lhyz.android.dribbble.di.component.DaggerAppComponent;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/6.
  */
+@HiltAndroidApp
 public class DribbbleApp extends Application {
 
     private static DribbbleApp INSTANCE;
@@ -43,7 +44,7 @@ public class DribbbleApp extends Application {
 
         INSTANCE = this;
 
-        mAppComponent = DaggerAppComponent.create();
+//        mAppComponent = DaggerAppComponent.create();
     }
 
     public static DribbbleApp getApp() {

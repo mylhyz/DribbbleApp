@@ -16,11 +16,10 @@
 package io.lhyz.android.dribbble.base.app;
 
 import android.os.Bundle;
-import androidx.annotation.LayoutRes;
+import android.view.View;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import butterknife.ButterKnife;
 
 /**
  * hello,android
@@ -32,12 +31,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setWindowFeature();
-        setContentView(getLayout());
-        ButterKnife.bind(this);
+        setContentView(getBindingLayout());
     }
 
-    @LayoutRes
-    protected abstract int getLayout();
+    protected abstract View getBindingLayout();
 
     protected void setWindowFeature() {
 

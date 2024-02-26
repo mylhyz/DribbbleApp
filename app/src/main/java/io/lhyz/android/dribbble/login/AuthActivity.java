@@ -19,6 +19,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
+
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -29,10 +31,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import butterknife.BindView;
-import io.lhyz.android.dribbble.BuildConfig;
+import io.viper.android.dribbble.BuildConfig;
 import io.viper.android.dribbble.R;
 import io.lhyz.android.dribbble.base.app.BaseActivity;
+import io.viper.android.dribbble.databinding.ActAuthBinding;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -48,10 +50,16 @@ public class AuthActivity extends BaseActivity {
 
     public static final int REQUEST_AUTH = 593;
 
-    @BindView(R.id.auth_view)
     WebView mWebView;
 
     private MaterialDialog mDialog;
+
+    @Override
+    protected View getBindingLayout() {
+        ActAuthBinding binding = ActAuthBinding.inflate(getLayoutInflater());
+        mWebView = binding.authView;
+        return binding.getRoot();
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,11 +87,6 @@ public class AuthActivity extends BaseActivity {
 
         mWebView.loadUrl("https://dribbble.com/oauth/authorize?scope=public+write+comment+upload&client_id=" + BuildConfig.Client_ID);
         mDialog.show();
-    }
-
-    @Override
-    protected int getLayout() {
-        return R.layout.act_auth;
     }
 
     private void executeAuthenticate(String code) {

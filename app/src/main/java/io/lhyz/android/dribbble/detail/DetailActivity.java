@@ -44,12 +44,12 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.Collections;
 import java.util.List;
 
-import butterknife.BindView;
 import co.lujun.androidtagview.TagContainerLayout;
 import io.viper.android.dribbble.R;
 import io.lhyz.android.dribbble.base.app.BaseActivity;
 import io.lhyz.android.dribbble.data.bean.Comment;
 import io.lhyz.android.dribbble.data.bean.Shot;
+import io.viper.android.dribbble.databinding.ActDetailShotBinding;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -63,42 +63,30 @@ public class DetailActivity extends BaseActivity implements DetailContract.View 
     public static final String EXTRA_PARAMS_SHOT = "EXTRA_PARAMS_SHOT";
 
     //必须控件
-    @BindView(R.id.action_likes)
     FloatingActionButton fabLikes;
-    @BindView(R.id.img_shot)
     SimpleDraweeView mImageView;
 
     //可选控件
-    @BindView(R.id.tv_description)
     @Nullable
     TextView tvDescription;
-    @BindView(R.id.tags_view)
     @Nullable
     TagContainerLayout mTagContainerLayout;
-    @BindView(R.id.tv_comments_count)
     @Nullable
     TextView tvCommentCount;
     @Nullable
-    @BindView(R.id.list_comments)
     RecyclerView mRecyclerView;
-    @BindView(R.id.img_author)
     @Nullable
     SimpleDraweeView imgAuthor;
-    @BindView(R.id.tv_name)
     @Nullable
     TextView tvUserName;
-    @BindView(R.id.tv_update_time)
     @Nullable
     TextView tvUpdateTime;
-    @BindView(R.id.pb_loading)
     @Nullable
     View pbLoading;
 
     @Nullable
-    @BindView(R.id.et_comment)
     EditText etComment;
     @Nullable
-    @BindView(R.id.ib_send)
     ImageButton ibSend;
 
     CommentAdapter mAdapter;
@@ -110,6 +98,24 @@ public class DetailActivity extends BaseActivity implements DetailContract.View 
     }
 
     LikeState state = LikeState.UNLIKE;
+
+    @Override
+    protected View getBindingLayout() {
+        ActDetailShotBinding binding = ActDetailShotBinding.inflate(getLayoutInflater());
+        fabLikes = binding.actionLikes ;
+        mImageView = binding.imgShot;
+        tvDescription = binding.tvDescription;
+        mTagContainerLayout = binding.tagsView;
+        tvCommentCount = binding.tvCommentsCount;
+        mRecyclerView = binding.listComments;
+        imgAuthor = binding.imgAuthor;
+        tvUserName = binding.tvName;
+        tvUpdateTime = binding.tvUpdateTime;
+        pbLoading = binding.pbLoading;
+        etComment = binding.etComment;
+        ibSend = binding.ibSend;
+        return binding.getRoot();
+    }
 
     @SuppressWarnings("deprecation")
     @Override
@@ -303,11 +309,6 @@ public class DetailActivity extends BaseActivity implements DetailContract.View 
     @Override
     public boolean isPortrait() {
         return getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
-    }
-
-    @Override
-    protected int getLayout() {
-        return R.layout.act_detail_shot;
     }
 
     @Override

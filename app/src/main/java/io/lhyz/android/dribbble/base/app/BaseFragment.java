@@ -16,38 +16,25 @@
 package io.lhyz.android.dribbble.base.app;
 
 import android.os.Bundle;
+
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/6.
  */
 public abstract class BaseFragment extends Fragment {
-
-    protected Unbinder mUnbinder;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(getLayout(), container, false);
-        mUnbinder = ButterKnife.bind(this, view);
-        return view;
+        return getBindingLayout(inflater, container);
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mUnbinder.unbind();
-    }
-
-    @LayoutRes
-    protected abstract int getLayout();
+    protected abstract View getBindingLayout(LayoutInflater inflater, @Nullable ViewGroup container);
 }

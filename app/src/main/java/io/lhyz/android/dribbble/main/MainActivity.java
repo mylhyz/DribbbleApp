@@ -3,14 +3,17 @@ package io.lhyz.android.dribbble.main;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+
 import androidx.core.view.GravityCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -19,7 +22,6 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
 import io.lhyz.android.dribbble.AppPreference;
 import io.lhyz.android.dribbble.AppStart;
 import io.viper.android.dribbble.R;
@@ -40,28 +42,30 @@ import io.lhyz.android.dribbble.main.recent.RecentPresenter;
 import io.lhyz.android.dribbble.main.team.TeamFragment;
 import io.lhyz.android.dribbble.main.team.TeamPresenter;
 import io.lhyz.android.dribbble.net.DribbbleServiceCreator;
+import io.viper.android.dribbble.databinding.ActMainBinding;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
-    @BindView(R.id.nav_view)
     NavigationView mNavigationView;
-    @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
-    @BindView(R.id.view_pager)
     ViewPager mViewPager;
 
     DribbbleService mDribbbleService;
 
     @Override
-    protected int getLayout() {
-        return R.layout.act_main;
+    protected View getBindingLayout() {
+        ActMainBinding binding = ActMainBinding.inflate(getLayoutInflater());
+        mToolbar = binding.appBarLayout.toolbar;
+        mDrawerLayout = binding.drawerLayout;
+        mNavigationView = binding.navView;
+        mTabLayout = binding.appBarLayout.tabLayout;
+        mViewPager = binding.appBarLayout.viewPager;
+        return binding.getRoot();
     }
 
     @Override

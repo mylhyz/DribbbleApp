@@ -22,18 +22,21 @@ import androidx.core.content.ContextCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
 
-import butterknife.BindView;
 import io.viper.android.dribbble.R;
 import io.lhyz.android.dribbble.base.app.BaseFragment;
 import io.lhyz.android.dribbble.data.bean.Shot;
 import io.lhyz.android.dribbble.main.OnShotClickListener;
 import io.lhyz.android.dribbble.main.ShotAdapter;
 import io.lhyz.android.dribbble.navigation.Navigator;
+import io.viper.android.dribbble.databinding.FragListBinding;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -42,11 +45,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by lhyz on 2016/8/8.
  */
 public class DebutFragment extends BaseFragment implements DebutContract.View {
-    @BindView(R.id.refresh_layout)
+
     SwipeRefreshLayout mSwipeRefreshLayout;
-    @BindView(R.id.recycler_list)
     RecyclerView mRecyclerView;
-    @BindView(R.id.no_items)
     View mEmptyView;
 
     DebutContract.Presenter mPresenter;
@@ -54,6 +55,15 @@ public class DebutFragment extends BaseFragment implements DebutContract.View {
 
     public static DebutFragment newInstance() {
         return new DebutFragment();
+    }
+
+    @Override
+    protected View getBindingLayout(LayoutInflater inflater, @Nullable ViewGroup container) {
+        FragListBinding binding = FragListBinding.inflate(inflater,container,false);
+        mSwipeRefreshLayout = binding.refreshLayout;
+        mRecyclerView = binding.recyclerList;
+        mEmptyView = binding.noItems;
+        return binding.getRoot();
     }
 
     @Override
@@ -99,11 +109,6 @@ public class DebutFragment extends BaseFragment implements DebutContract.View {
     public void onDestroy() {
         super.onDestroy();
         mPresenter.destroy();
-    }
-
-    @Override
-    protected int getLayout() {
-        return R.layout.frag_list;
     }
 
     @Override

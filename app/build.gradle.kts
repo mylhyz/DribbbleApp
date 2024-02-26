@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -15,6 +17,30 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        if (project.hasProperty("client_id")) {
+            buildConfigField("String", "Client_ID", project.properties["client_id"] as String)
+        } else {
+            buildConfigField("String", "Client_ID", "\"zxcvbnmasdfghjkl\"")
+        }
+
+        if (project.hasProperty("client_secret")) {
+            buildConfigField("String", "Client_Secret", project.properties["client_secret"] as String)
+        } else {
+            buildConfigField("String", "Client_Secret", "\"zxcvbnmasdfghjkl\"")
+        }
+
+        if (project.hasProperty("callback_url")) {
+            buildConfigField("String", "Callback_URL", project.properties["callback_url"] as String)
+        } else {
+            buildConfigField("String", "Callback_URL", "\"https://www.example.com/\"")
+        }
+
+        if (project.hasProperty("client_access_token")) {
+            buildConfigField("String", "ACCESS_TOKEN", project.properties["client_access_token"] as String)
+        } else {
+            buildConfigField("String", "ACCESS_TOKEN", "\"zxcvbnmasdfghjkl\"")
+        }
     }
 
     buildTypes {
@@ -33,6 +59,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true // 使用 ViewBinding
+        buildConfig = true // 生成 BuildConfig
+    }
 }
 
 dependencies {
@@ -49,9 +79,8 @@ dependencies {
     implementation("com.squareup.okio:okio:1.9.0")
     implementation("io.reactivex:rxjava:1.1.8")
     implementation("io.reactivex:rxandroid:1.2.1")
-    implementation("com.google.dagger:dagger:2.6")
-    annotationProcessor("com.google.dagger:dagger-compiler:2.6")
-    api("javax.annotation:jsr250-api:1.0")
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
     implementation("com.google.code.gson:gson:2.7")
     implementation("com.squareup.retrofit2:retrofit:2.1.0")
     implementation("com.squareup.retrofit2:converter-gson:2.1.0")
@@ -67,4 +96,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+}
+
+kapt {
+    correctErrorTypes = true
 }
