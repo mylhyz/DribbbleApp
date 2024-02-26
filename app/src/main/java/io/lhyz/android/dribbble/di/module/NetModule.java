@@ -25,6 +25,7 @@ import io.lhyz.android.dribbble.AppPreference;
 import io.lhyz.android.dribbble.data.DribbbleService;
 import io.lhyz.android.dribbble.net.AuthorizationInterceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -37,7 +38,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @InstallIn(SingletonComponent.class)
 public class NetModule {
 
-    private static final String DRIBBBLE_API = "https://api.dribbble.com/v1/";
+    private static final String DRIBBBLE_API = "https://api.dribbble.com/v2/";
 
 
     @Provides
@@ -49,8 +50,11 @@ public class NetModule {
     @Provides
     @Singleton
     public static Retrofit provideRetrofit(AuthorizationInterceptor interceptor) {
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
+                .addInterceptor(loggingInterceptor)
                 .build();
         return new Retrofit.Builder()
                 .baseUrl(DRIBBBLE_API)

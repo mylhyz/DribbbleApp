@@ -89,29 +89,29 @@ public class MainActivity extends BaseActivity
 
         ArrayList<TabInfo> tabInfoArrayList = new ArrayList<>();
 
-        RecentFragment recentFragment = RecentFragment.newInstance();
-        new RecentPresenter(recentFragment, mDribbbleRepository);
-        tabInfoArrayList.add(new TabInfo(recentFragment, "Recent"));
+//        RecentFragment recentFragment = RecentFragment.newInstance();
+//        new RecentPresenter(recentFragment, mDribbbleRepository);
+//        tabInfoArrayList.add(new TabInfo(recentFragment, "Recent"));
 
         PopularFragment popularFragment = PopularFragment.newInstance();
         new PopularPresenter(popularFragment, mDribbbleRepository);
         tabInfoArrayList.add(new TabInfo(popularFragment, "Popular"));
 
-        FollowingFragment followingFragment = FollowingFragment.newInstance();
-        new FollowingPresenter(followingFragment, mDribbbleRepository);
-        tabInfoArrayList.add(new TabInfo(followingFragment, "Following"));
-
-        DebutFragment debutFragment = DebutFragment.newInstance();
-        new DebutPresenter(debutFragment, mDribbbleRepository);
-        tabInfoArrayList.add(new TabInfo(debutFragment, "Debuts"));
-
-        TeamFragment teamFragment = TeamFragment.newInstance();
-        new TeamPresenter(teamFragment, mDribbbleRepository);
-        tabInfoArrayList.add(new TabInfo(teamFragment, "Teams"));
-
-        PlayoffsFragment playoffsFragment = PlayoffsFragment.newInstance();
-        new PlayoffsPresenter(playoffsFragment, mDribbbleRepository);
-        tabInfoArrayList.add(new TabInfo(playoffsFragment, "Playoffs"));
+//        FollowingFragment followingFragment = FollowingFragment.newInstance();
+//        new FollowingPresenter(followingFragment, mDribbbleRepository);
+//        tabInfoArrayList.add(new TabInfo(followingFragment, "Following"));
+//
+//        DebutFragment debutFragment = DebutFragment.newInstance();
+//        new DebutPresenter(debutFragment, mDribbbleRepository);
+//        tabInfoArrayList.add(new TabInfo(debutFragment, "Debuts"));
+//
+//        TeamFragment teamFragment = TeamFragment.newInstance();
+//        new TeamPresenter(teamFragment, mDribbbleRepository);
+//        tabInfoArrayList.add(new TabInfo(teamFragment, "Teams"));
+//
+//        PlayoffsFragment playoffsFragment = PlayoffsFragment.newInstance();
+//        new PlayoffsPresenter(playoffsFragment, mDribbbleRepository);
+//        tabInfoArrayList.add(new TabInfo(playoffsFragment, "Playoffs"));
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(
                 getSupportFragmentManager(),

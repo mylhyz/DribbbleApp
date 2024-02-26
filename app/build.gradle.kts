@@ -76,6 +76,7 @@ dependencies {
     implementation("com.afollestad.material-dialogs:core:0.8.6.2")
     implementation("com.afollestad.material-dialogs:commons:0.8.6.2")
     implementation("com.squareup.okhttp3:okhttp:3.4.1")
+    implementation("com.squareup.okhttp3:logging-interceptor:3.4.1")
     implementation("com.squareup.okio:okio:1.9.0")
     implementation("io.reactivex:rxjava:1.1.8")
     implementation("io.reactivex:rxandroid:1.2.1")

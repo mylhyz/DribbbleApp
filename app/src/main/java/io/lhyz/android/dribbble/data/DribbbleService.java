@@ -46,7 +46,7 @@ public interface DribbbleService {
      * Shot接口
      */
     //默认是popular
-    @GET("shots")
+    @GET("user/shots")
     Observable<List<Shot>> getPopularList();
 
     //参数是sort=recent
