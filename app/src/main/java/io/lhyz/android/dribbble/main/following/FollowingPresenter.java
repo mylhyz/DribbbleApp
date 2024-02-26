@@ -19,7 +19,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import io.lhyz.android.dribbble.DribbbleApp;
 import io.lhyz.android.dribbble.data.ShotType;
 import io.lhyz.android.dribbble.data.bean.Shot;
 import io.lhyz.android.dribbble.data.source.DataSource;
@@ -39,8 +38,6 @@ public class FollowingPresenter implements FollowingContract.Presenter {
     public FollowingPresenter(FollowingContract.View view) {
         mView = view;
         mView.setPresenter(this);
-
-        DribbbleApp.getApp().getAppComponent().inject(this);
     }
 
     @Override

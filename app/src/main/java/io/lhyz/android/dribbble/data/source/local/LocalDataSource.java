@@ -27,6 +27,10 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import dagger.hilt.android.qualifiers.ApplicationContext;
 import io.lhyz.android.dribbble.base.DefaultSubscriber;
 import io.lhyz.android.dribbble.data.bean.Comment;
 import io.lhyz.android.dribbble.data.bean.Shot;
@@ -49,17 +53,17 @@ import rx.subscriptions.CompositeSubscription;
  * hello,android
  * Created by lhyz on 2016/8/14.
  */
+@Singleton
 public class LocalDataSource implements DataSource {
     private static final String TAG = TagHelper.from(LocalDataSource.class);
-
-    private static LocalDataSource INSTANCE;
 
     Dao<CommentModel, Long> mCommentDao;
     Dao<ShotModel, Long> mShotDao;
 
     CompositeSubscription mCompositeSubscription;
 
-    public LocalDataSource(Context context) {
+    @Inject
+    public LocalDataSource(@ApplicationContext Context context) {
         CommentDBHelper commentDBHelper = new CommentDBHelper(context);
         ShotDBHelper shotDBHelper = new ShotDBHelper(context);
         try {
@@ -72,37 +76,30 @@ public class LocalDataSource implements DataSource {
         mCompositeSubscription = new CompositeSubscription();
     }
 
-    public static LocalDataSource getInstance(Context context) {
-        if (INSTANCE == null) {
-            INSTANCE = new LocalDataSource(context);
-        }
-        return INSTANCE;
-    }
-
     /**
      * 根据shot列表类型获取列表
      */
     @Override
     public void getShotList(final int type, boolean force, final LoadShotsCallback callback) {
         Subscription subscription = Observable.create(new Observable.OnSubscribe<List<Shot>>() {
-            @Override
-            public void call(Subscriber<? super List<Shot>> subscriber) {
-                try {
-                    QueryBuilder<ShotModel, Long> queryBuilder = mShotDao.queryBuilder();
-                    queryBuilder.where().eq("type", type);
-                    PreparedQuery<ShotModel> preparedQuery = queryBuilder.orderBy("createdTime", false).prepare();
-                    List<ShotModel> shotModels = mShotDao.query(preparedQuery);
-                    if (shotModels.size() == 0) {
-                        subscriber.onError(new NoShotsException());
-                        return;
+                    @Override
+                    public void call(Subscriber<? super List<Shot>> subscriber) {
+                        try {
+                            QueryBuilder<ShotModel, Long> queryBuilder = mShotDao.queryBuilder();
+                            queryBuilder.where().eq("type", type);
+                            PreparedQuery<ShotModel> preparedQuery = queryBuilder.orderBy("createdTime", false).prepare();
+                            List<ShotModel> shotModels = mShotDao.query(preparedQuery);
+                            if (shotModels.size() == 0) {
+                                subscriber.onError(new NoShotsException());
+                                return;
+                            }
+                            subscriber.onNext(ShotMapper.getInstance().convert(shotModels));
+                            subscriber.onCompleted();
+                        } catch (SQLException e) {
+                            subscriber.onError(e);
+                        }
                     }
-                    subscriber.onNext(ShotMapper.getInstance().convert(shotModels));
-                    subscriber.onCompleted();
-                } catch (SQLException e) {
-                    subscriber.onError(e);
-                }
-            }
-        })
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultSubscriber<List<Shot>>() {
@@ -125,24 +122,24 @@ public class LocalDataSource implements DataSource {
     @Override
     public void getCommentList(final long shotId, boolean force, final LoadCommentsCallback callback) {
         Subscription subscription = Observable.create(new Observable.OnSubscribe<List<Comment>>() {
-            @Override
-            public void call(Subscriber<? super List<Comment>> subscriber) {
-                try {
-                    QueryBuilder<CommentModel, Long> queryBuilder = mCommentDao.queryBuilder();
-                    queryBuilder.where().eq("shotId", shotId);
-                    PreparedQuery<CommentModel> preparedQuery = queryBuilder.orderBy("createdTime", false).prepare();
-                    List<CommentModel> commentModels = mCommentDao.query(preparedQuery);
-                    if (commentModels.size() == 0) {
-                        subscriber.onError(new NoCommentsException());
-                        return;
+                    @Override
+                    public void call(Subscriber<? super List<Comment>> subscriber) {
+                        try {
+                            QueryBuilder<CommentModel, Long> queryBuilder = mCommentDao.queryBuilder();
+                            queryBuilder.where().eq("shotId", shotId);
+                            PreparedQuery<CommentModel> preparedQuery = queryBuilder.orderBy("createdTime", false).prepare();
+                            List<CommentModel> commentModels = mCommentDao.query(preparedQuery);
+                            if (commentModels.size() == 0) {
+                                subscriber.onError(new NoCommentsException());
+                                return;
+                            }
+                            subscriber.onNext(CommentMapper.getInstance().convert(commentModels));
+                            subscriber.onCompleted();
+                        } catch (SQLException e) {
+                            subscriber.onError(e);
+                        }
                     }
-                    subscriber.onNext(CommentMapper.getInstance().convert(commentModels));
-                    subscriber.onCompleted();
-                } catch (SQLException e) {
-                    subscriber.onError(e);
-                }
-            }
-        })
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultSubscriber<List<Comment>>() {

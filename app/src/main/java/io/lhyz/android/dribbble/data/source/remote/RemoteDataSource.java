@@ -19,13 +19,16 @@ import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import io.lhyz.android.dribbble.base.DefaultSubscriber;
+import io.lhyz.android.dribbble.data.DribbbleService;
+import io.lhyz.android.dribbble.data.ShotType;
 import io.lhyz.android.dribbble.data.bean.Comment;
 import io.lhyz.android.dribbble.data.bean.Like;
 import io.lhyz.android.dribbble.data.bean.Shot;
 import io.lhyz.android.dribbble.data.source.DataSource;
-import io.lhyz.android.dribbble.data.DribbbleService;
-import io.lhyz.android.dribbble.data.ShotType;
 import io.lhyz.android.dribbble.net.DribbbleServiceCreator;
 import io.lhyz.android.dribbble.util.TagHelper;
 import rx.Observable;
@@ -38,27 +41,21 @@ import rx.subscriptions.CompositeSubscription;
  * hello,android
  * Created by lhyz on 2016/8/14.
  */
+@Singleton
 public class RemoteDataSource implements DataSource {
 
     private static final String TAG = TagHelper.from(RemoteDataSource.class);
-
-    private static class Holder {
-        private static final RemoteDataSource instance = new RemoteDataSource();
-    }
 
     DribbbleService mDribbbleService;
 
     CompositeSubscription mCompositeSubscription;
 
+    @Inject
     public RemoteDataSource() {
         mDribbbleService = DribbbleServiceCreator.newInstance()
                 .createService();
 
         mCompositeSubscription = new CompositeSubscription();
-    }
-
-    public static RemoteDataSource getInstance() {
-        return Holder.instance;
     }
 
     @Override

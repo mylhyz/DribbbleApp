@@ -18,6 +18,8 @@ package io.lhyz.android.dribbble.data.source;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 
 import io.lhyz.android.dribbble.data.bean.Comment;
 import io.lhyz.android.dribbble.data.bean.Shot;
@@ -26,6 +28,7 @@ import io.lhyz.android.dribbble.data.bean.Shot;
  * hello,android
  * Created by lhyz on 2016/8/14.
  */
+@Singleton
 public class DribbbleRepository implements DataSource {
     //本地数据源
     DataSource mLocalDataSource;
@@ -33,7 +36,7 @@ public class DribbbleRepository implements DataSource {
     DataSource mRemoteDataSource;
 
     @Inject
-    public DribbbleRepository(DataSource localDataSource, DataSource remoteDataSource) {
+    public DribbbleRepository(@Named("localDS") DataSource localDataSource, @Named("remoteDS") DataSource remoteDataSource) {
         mLocalDataSource = localDataSource;
         mRemoteDataSource = remoteDataSource;
     }

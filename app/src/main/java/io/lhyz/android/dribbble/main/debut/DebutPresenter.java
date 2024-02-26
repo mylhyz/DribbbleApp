@@ -19,11 +19,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import io.lhyz.android.dribbble.DribbbleApp;
+import io.lhyz.android.dribbble.data.ShotType;
 import io.lhyz.android.dribbble.data.bean.Shot;
 import io.lhyz.android.dribbble.data.source.DataSource;
 import io.lhyz.android.dribbble.data.source.DribbbleRepository;
-import io.lhyz.android.dribbble.data.ShotType;
 
 /**
  * hello,android
@@ -39,8 +38,6 @@ public class DebutPresenter implements DebutContract.Presenter {
     public DebutPresenter(DebutContract.View view) {
         mView = view;
         mView.setPresenter(this);
-
-        DribbbleApp.getApp().getAppComponent().inject(this);
     }
 
     @Override

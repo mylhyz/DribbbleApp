@@ -15,24 +15,32 @@
  */
 package io.lhyz.android.dribbble.di.module;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
+import dagger.Binds;
 import dagger.Module;
-import dagger.Provides;
-import io.lhyz.android.dribbble.DribbbleApp;
-import io.lhyz.android.dribbble.data.source.DribbbleRepository;
+import dagger.hilt.InstallIn;
+import dagger.hilt.components.SingletonComponent;
+import io.lhyz.android.dribbble.data.source.DataSource;
 import io.lhyz.android.dribbble.data.source.local.LocalDataSource;
 import io.lhyz.android.dribbble.data.source.remote.RemoteDataSource;
-import io.lhyz.android.dribbble.di.ForApplication;
 
 /**
  * hello,android
  * Created by lhyz on 2016/8/10.
  */
 @Module
-public class AppModule {
-    @Provides
-    @ForApplication
-    DribbbleRepository provideRepository() {
-        return new DribbbleRepository(LocalDataSource.getInstance(DribbbleApp.getAppContext()),
-                RemoteDataSource.getInstance());
-    }
+@InstallIn(SingletonComponent.class)
+public abstract class AppModule {
+
+    @Binds
+    @Singleton
+    @Named("localDS")
+    public abstract DataSource bindLocal(LocalDataSource localDataSource);
+
+    @Binds
+    @Singleton
+    @Named("remoteDS")
+    public abstract DataSource bindRemote(RemoteDataSource remoteDataSource);
 }

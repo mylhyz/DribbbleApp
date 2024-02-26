@@ -19,7 +19,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import io.lhyz.android.dribbble.DribbbleApp;
 import io.lhyz.android.dribbble.data.bean.Comment;
 import io.lhyz.android.dribbble.data.bean.Like;
 import io.lhyz.android.dribbble.data.bean.Shot;
@@ -42,8 +41,6 @@ public class DetailPresenter implements DetailContract.Presenter {
         mView = view;
         mShot = shot;
         mView.setPresenter(this);
-
-        DribbbleApp.getApp().getAppComponent().inject(this);
     }
 
     @Override

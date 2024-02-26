@@ -16,14 +16,10 @@
 package io.lhyz.android.dribbble;
 
 import android.app.Application;
-import android.content.Context;
 
-//import com.crashlytics.android.Crashlytics;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
-//import io.fabric.sdk.android.Fabric;
 import dagger.hilt.android.HiltAndroidApp;
-import io.lhyz.android.dribbble.di.component.AppComponent;
 
 /**
  * hello,android
@@ -31,31 +27,9 @@ import io.lhyz.android.dribbble.di.component.AppComponent;
  */
 @HiltAndroidApp
 public class DribbbleApp extends Application {
-
-    private static DribbbleApp INSTANCE;
-
-    AppComponent mAppComponent;
-
     @Override
     public void onCreate() {
         super.onCreate();
-//        Fabric.with(this, new Crashlytics());
         Fresco.initialize(this);
-
-        INSTANCE = this;
-
-//        mAppComponent = DaggerAppComponent.create();
-    }
-
-    public static DribbbleApp getApp() {
-        return INSTANCE;
-    }
-
-    public static Context getAppContext() {
-        return getApp();
-    }
-
-    public AppComponent getAppComponent() {
-        return mAppComponent;
     }
 }
